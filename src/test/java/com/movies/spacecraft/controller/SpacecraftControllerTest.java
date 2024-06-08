@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +40,24 @@ class SpacecraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Post new spacecraft")
+    void postSpacecraft() throws Exception {
+        mvc.perform(post("/spacecrafts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {\
+                                  "name": "testSpacecraft",\
+                                  "movie": "testMovie",\
+                                  "pilot": "testPilot"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("testSpacecraft"))
+                .andExpect(jsonPath("$.movie").value("testMovie"))
+                .andExpect(jsonPath("$.pilot").value("testPilot"));
     }
 
 }
