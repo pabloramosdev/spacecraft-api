@@ -1,6 +1,7 @@
 package com.movies.spacecraft.service;
 
 import com.movies.spacecraft.entity.Spacecraft;
+import com.movies.spacecraft.model.SpacecraftRequest;
 import com.movies.spacecraft.model.SpacecraftResponse;
 import org.springframework.stereotype.Component;
 
@@ -15,4 +16,11 @@ public class SpacecraftMapper {
                 .build();
     }
 
+    public Spacecraft toSpacecraft(SpacecraftRequest spacecraftRequest) {
+        return Spacecraft.builder()
+                .name(spacecraftRequest.getName())
+                .movie(spacecraftRequest.getMovie())
+                .pilot(spacecraftRequest.getPilot())
+                .build();
+    }
 }

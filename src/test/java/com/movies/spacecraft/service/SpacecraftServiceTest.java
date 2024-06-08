@@ -1,6 +1,7 @@
 package com.movies.spacecraft.service;
 
 import com.movies.spacecraft.entity.Spacecraft;
+import com.movies.spacecraft.model.SpacecraftRequest;
 import com.movies.spacecraft.model.SpacecraftResponse;
 import com.movies.spacecraft.repository.SpacecraftRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -46,6 +47,22 @@ class SpacecraftServiceTest {
         when(spacecraftRepository.findById(anyLong())).thenReturn(Optional.empty());
         spacecraftService.findSpacecraftById(11L);
         verify(spacecraftRepository).findById(anyLong());
+    }
+
+    @Test
+    @DisplayName("when create a spacecraft then return this")
+    void createSpacecraftThenReturnCreated() {
+        when(spacecraftRepository.save(any())).thenReturn(
+                Spacecraft.builder().id(1L).name("x-wing").movie("Star Wars").pilot("Luke Skywalker").build());
+        SpacecraftResponse spacecraft = spacecraftService.createSpacecraft(
+                SpacecraftRequest.builder().name("x-wing").movie("Star Wars").pilot("Luke Skywalker").build());
+        assertNotNull(spacecraft);
+        assertEquals("x-wing", spacecraft.getName());
+        assertEquals("Star Wars", spacecraft.getMovie());
+        assertEquals("Luke Skywalker", spacecraft.getPilot());
+        verify(spacecraftRepository).save(any());
+        verify(spacecraftMapper).toSpacecraft(any());
+        verify(spacecraftMapper).toSpacecraftResponse(any());
     }
 
 }
