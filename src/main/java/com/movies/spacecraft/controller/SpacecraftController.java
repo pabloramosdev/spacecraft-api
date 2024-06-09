@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -21,6 +23,11 @@ public class SpacecraftController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResponse<SpacecraftResponse>> getAllSpacecraft(@RequestParam Integer page, @RequestParam Integer size) {
         return ResponseEntity.ok(spacecraftService.allSpacecraftPaginated(page, size));
+    }
+
+    @GetMapping(path = "/name", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SpacecraftResponse>> getContainsNameSpacecraft(@RequestParam String filter) {
+        return ResponseEntity.ok(spacecraftService.containsName(filter));
     }
 
     @GetMapping(path = "/{spacecraftId}", produces = APPLICATION_JSON_VALUE)
