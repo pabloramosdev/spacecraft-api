@@ -37,4 +37,10 @@ public class SpacecraftController {
         return ResponseEntity.ok(spacecraftService.partialUpdateSpacecraft(spacecraftId, spacecraftRequest));
     }
 
+    @DeleteMapping(path="/{spacecraftId}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> patchSpacecraft(@PathVariable Long spacecraftId) {
+        spacecraftService.deleteSpacecraft(spacecraftId);
+        return ResponseEntity.ok().build();
+    }
+
 }
