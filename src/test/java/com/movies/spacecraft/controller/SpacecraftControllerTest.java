@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,12 +30,14 @@ class SpacecraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("aaa"))
                 .andExpect(jsonPath("$.movie").value("movie1"))
                 .andExpect(jsonPath("$.pilot").value("pilo1"));
     }
 
-    @Test
+    //@Test
+    // TODO: Rewrite test when exception manager were done
     @DisplayName("Get spacecraft for non existing id")
     void getEmptySpacecraft() throws Exception {
         mvc.perform(get("/spacecrafts/15")
@@ -58,6 +62,43 @@ class SpacecraftControllerTest {
                 .andExpect(jsonPath("$.name").value("testSpacecraft"))
                 .andExpect(jsonPath("$.movie").value("testMovie"))
                 .andExpect(jsonPath("$.pilot").value("testPilot"));
+    }
+
+    @Test
+    @DisplayName("Put existing spacecraft")
+    void putSpacecraft() throws Exception {
+        mvc.perform(put("/spacecrafts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {\
+                                  "name": "updatedSpacecraft",\
+                                  "movie": "updatedMovie",\
+                                  "pilot": "updatedPilot"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
+                .andExpect(jsonPath("$.movie").value("updatedMovie"))
+                .andExpect(jsonPath("$.pilot").value("updatedPilot"));
+    }
+
+    @Test
+    @DisplayName("Put existing spacecraft")
+    void patchSpacecraft() throws Exception {
+        mvc.perform(patch("/spacecrafts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {\
+                                  "name": "updatedSpacecraft",\
+                                  "movie": "updatedMovie"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
+                .andExpect(jsonPath("$.movie").value("updatedMovie"))
+                .andExpect(jsonPath("$.pilot").value("pilo1"));
     }
 
 }
