@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class SpacecraftService {
@@ -36,6 +39,12 @@ public class SpacecraftService {
                 spacecraftResponsePage.getTotalPages(), spacecraftResponsePage.getTotalElements());
         pageResponse.addContent(spacecraftResponsePage.getContent());
         return pageResponse;
+    }
+
+    public List<SpacecraftResponse> containsName(String name) {
+        return spacecraftRepository.findByNameContaining(name).stream()
+                .map(spacecraftMapper::toSpacecraftResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
