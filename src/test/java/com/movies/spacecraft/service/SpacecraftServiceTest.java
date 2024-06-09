@@ -1,9 +1,10 @@
 package com.movies.spacecraft.service;
 
-import com.movies.spacecraft.entity.Spacecraft;
-import com.movies.spacecraft.model.SpacecraftRequest;
-import com.movies.spacecraft.model.SpacecraftResponse;
+import com.movies.spacecraft.repository.entity.Spacecraft;
+import com.movies.spacecraft.service.model.SpacecraftRequest;
+import com.movies.spacecraft.service.model.SpacecraftResponse;
 import com.movies.spacecraft.repository.SpacecraftRepository;
+import com.movies.spacecraft.service.mapper.SpacecraftMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,6 +58,7 @@ class SpacecraftServiceTest {
         SpacecraftResponse spacecraft = spacecraftService.createSpacecraft(
                 SpacecraftRequest.builder().name("x-wing").movie("Star Wars").pilot("Luke Skywalker").build());
         assertNotNull(spacecraft);
+        assertEquals(1L, spacecraft.getId());
         assertEquals("x-wing", spacecraft.getName());
         assertEquals("Star Wars", spacecraft.getMovie());
         assertEquals("Luke Skywalker", spacecraft.getPilot());

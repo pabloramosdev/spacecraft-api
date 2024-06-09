@@ -1,4 +1,4 @@
-package com.movies.spacecraft.model;
+package com.movies.spacecraft.service.model;
 
 import lombok.Builder;
 import lombok.Data;
