@@ -25,16 +25,16 @@ class SpacecraftControllerTest {
     private MockMvc mvc;
 
     @Test
-    @DisplayName("Get spacecraft for id 1")
+    @DisplayName("Get spacecraft for id 7")
     void getSpacecraftById() throws Exception {
-        mvc.perform(get("/spacecrafts/1")
+        mvc.perform(get("/spacecrafts/7")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("aaa"))
-                .andExpect(jsonPath("$.movie").value("movie1"))
-                .andExpect(jsonPath("$.pilot").value("pilo1"));
+                .andExpect(jsonPath("$.id").value(7L))
+                .andExpect(jsonPath("$.name").value("ggg"))
+                .andExpect(jsonPath("$.movie").value("movie7"))
+                .andExpect(jsonPath("$.pilot").value("pilo7"));
     }
 
     //@Test
@@ -87,7 +87,7 @@ class SpacecraftControllerTest {
     @Test
     @DisplayName("Put existing spacecraft")
     void patchSpacecraft() throws Exception {
-        mvc.perform(patch("/spacecrafts/1")
+        mvc.perform(patch("/spacecrafts/8")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {\
@@ -96,16 +96,16 @@ class SpacecraftControllerTest {
                                 }"""))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(8L))
                 .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
                 .andExpect(jsonPath("$.movie").value("updatedMovie"))
-                .andExpect(jsonPath("$.pilot").value("pilo1"));
+                .andExpect(jsonPath("$.pilot").value("pilo8"));
     }
 
     @Test
     @DisplayName("Delete existing spacecraft")
     void deleteSpacecraft() throws Exception {
-        mvc.perform(delete("/spacecrafts/1")
+        mvc.perform(delete("/spacecrafts/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

@@ -88,7 +88,7 @@ public class SpacecraftService {
         spacecraftRepository.delete(spacecraft);
     }
 
-    private Spacecraft findSpacecraft(Long spacecraftId) {
+    public Spacecraft findSpacecraft(Long spacecraftId) {
         return spacecraftRepository.findById(spacecraftId)
                 .orElseThrow(() -> new SpacecraftNotFoundException(spacecraftId));
     }
