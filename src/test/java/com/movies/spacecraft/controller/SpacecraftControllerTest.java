@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,6 +100,15 @@ class SpacecraftControllerTest {
                 .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
                 .andExpect(jsonPath("$.movie").value("updatedMovie"))
                 .andExpect(jsonPath("$.pilot").value("pilo1"));
+    }
+
+    @Test
+    @DisplayName("Delete existing spacecraft")
+    void deleteSpacecraft() throws Exception {
+        mvc.perform(delete("/spacecrafts/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }
