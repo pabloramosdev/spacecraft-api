@@ -1,7 +1,7 @@
 package com.movies.spacecraft.controller;
 
-import com.movies.spacecraft.model.SpacecraftRequest;
-import com.movies.spacecraft.model.SpacecraftResponse;
+import com.movies.spacecraft.service.model.SpacecraftRequest;
+import com.movies.spacecraft.service.model.SpacecraftResponse;
 import com.movies.spacecraft.service.SpacecraftService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

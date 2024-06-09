@@ -1,8 +1,9 @@
 package com.movies.spacecraft.service;
 
-import com.movies.spacecraft.model.SpacecraftRequest;
-import com.movies.spacecraft.model.SpacecraftResponse;
+import com.movies.spacecraft.service.model.SpacecraftRequest;
+import com.movies.spacecraft.service.model.SpacecraftResponse;
 import com.movies.spacecraft.repository.SpacecraftRepository;
+import com.movies.spacecraft.service.mapper.SpacecraftMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
