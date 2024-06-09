@@ -20,8 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SpacecraftServiceTest {
@@ -118,6 +117,17 @@ class SpacecraftServiceTest {
         verify(spacecraftRepository).findById(anyLong());
         verify(spacecraftRepository).save(any());
         verify(spacecraftMapper).toSpacecraftResponse(any());
+    }
+
+    @Test
+    @DisplayName("when update partial spacecraft then return partially updated one")
+    void deleteSpacecraftThenDoNothing() {
+        when(spacecraftRepository.findById(anyLong())).thenReturn(Optional.of(
+                Spacecraft.builder().id(1L).name("x-wing").movie("Star Wars").pilot("Luke Skywalker").build()));
+        doNothing().when(spacecraftRepository).delete(any());
+        spacecraftService.deleteSpacecraft(1L);
+        verify(spacecraftRepository).findById(anyLong());
+        verify(spacecraftRepository).delete(any());
     }
 
 
