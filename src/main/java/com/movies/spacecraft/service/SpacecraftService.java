@@ -57,6 +57,12 @@ public class SpacecraftService {
         return spacecraftMapper.toSpacecraftResponse(spacecraftRepository.save(spacecraft));
     }
 
+    @Transactional
+    public void deleteSpacecraft(Long spacecraftId) {
+        Spacecraft spacecraft = findSpacecraft(spacecraftId);
+        spacecraftRepository.delete(spacecraft);
+    }
+
     private Spacecraft findSpacecraft(Long spacecraftId) {
         return spacecraftRepository.findById(spacecraftId)
                 .orElseThrow(() -> new SpacecraftNotFoundException(spacecraftId));
