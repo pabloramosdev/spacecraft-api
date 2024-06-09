@@ -1,5 +1,6 @@
 package com.movies.spacecraft.controller;
 
+import com.movies.spacecraft.service.model.PageResponse;
 import com.movies.spacecraft.service.model.SpacecraftRequest;
 import com.movies.spacecraft.service.model.SpacecraftResponse;
 import com.movies.spacecraft.service.SpacecraftService;
@@ -16,6 +17,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class SpacecraftController {
 
     private final SpacecraftService spacecraftService;
+
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageResponse<SpacecraftResponse>> getAllSpacecraft(@RequestParam Integer page, @RequestParam Integer size) {
+        return ResponseEntity.ok(spacecraftService.allSpacecraftPaginated(page, size));
+    }
 
     @GetMapping(path = "/{spacecraftId}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<SpacecraftResponse> getSpacecraftById(@PathVariable Long spacecraftId) {
