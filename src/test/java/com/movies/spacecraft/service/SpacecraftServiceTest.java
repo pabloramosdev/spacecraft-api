@@ -15,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -130,5 +132,20 @@ class SpacecraftServiceTest {
         verify(spacecraftRepository).delete(any());
     }
 
+    @Test
+    @DisplayName("when filter by name then return all spacecrafts that match the filter")
+    void containsNameTestOk() {
+        when(spacecraftRepository.findByNameContaining(anyString())).thenReturn(Collections.singletonList(
+                Spacecraft.builder().id(1L).name("x-wing").movie("Star Wars").pilot("Luke Skywalker").build()));
+        List<SpacecraftResponse> spacecrafts = spacecraftService.containsName("wing");
+        assertNotNull(spacecrafts);
+        assertFalse(spacecrafts.isEmpty());
+        SpacecraftResponse spacecraft = spacecrafts.getFirst();
+        assertEquals("x-wing", spacecraft.getName());
+        assertEquals("Star Wars", spacecraft.getMovie());
+        assertEquals("Luke Skywalker", spacecraft.getPilot());
+        verify(spacecraftRepository).findByNameContaining(anyString());
+        verify(spacecraftMapper).toSpacecraftResponse(any());
+    }
 
 }
