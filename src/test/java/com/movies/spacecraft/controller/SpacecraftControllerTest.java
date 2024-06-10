@@ -14,8 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,14 +36,66 @@ class SpacecraftControllerTest {
                 .andExpect(jsonPath("$.pilot").value("pilo7"));
     }
 
-    //@Test
-    // TODO: Rewrite test when exception manager were done
+    @Test
+    @DisplayName("Get filter spacecraft for name that contains iii")
+    void getContainsNameSpacecraft() throws Exception {
+        mvc.perform(get("/spacecrafts/name?filter=iii")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .json("""
+                                [
+                                  {
+                                    "id":9,
+                                    "name":"iii",
+                                    "movie":"movie9",
+                                    "pilot":"pilo9"
+                                   }
+                                ]"""));
+    }
+
+    @Test
+    @DisplayName("Get paginated spacecraft for page 7 size 1")
+    void getAllSpacecraft() throws Exception {
+        mvc.perform(get("/spacecrafts?page=7&size=1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .json("""
+                                {
+                                  "page": 7,
+                                  "size": 1,
+                                  "totalPages": 11,
+                                  "totalElements": 11,
+                                  "content": [
+                                    {
+                                      "id": 8,
+                                      "name": "hhh",
+                                      "movie": "movie8",
+                                      "pilot": "pilo8"
+                                    }
+                                  ]
+                                }"""));
+    }
+
+    @Test
+    @DisplayName("Get paginated spacecraft for page 4 size 5 then return no content")
+    void getPageWithNoConten() throws Exception {
+        mvc.perform(get("/spacecrafts?page=4&size=5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     @DisplayName("Get spacecraft for non existing id")
     void getEmptySpacecraft() throws Exception {
         mvc.perform(get("/spacecrafts/15")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -82,6 +133,20 @@ class SpacecraftControllerTest {
                 .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
                 .andExpect(jsonPath("$.movie").value("updatedMovie"))
                 .andExpect(jsonPath("$.pilot").value("updatedPilot"));
+    }
+
+    @Test
+    @DisplayName("Put partial spacecraft then return bad request")
+    void putPartialSpacecraft() throws Exception {
+        mvc.perform(put("/spacecrafts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {\
+                                  "name": "updatedSpacecraft",\
+                                  "movie": "updatedMovie"
+                                }"""))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
