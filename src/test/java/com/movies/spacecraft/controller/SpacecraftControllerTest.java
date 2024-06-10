@@ -32,16 +32,19 @@ class SpacecraftControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(7L))
-                .andExpect(jsonPath("$.name").value("ggg"))
-                .andExpect(jsonPath("$.movie").value("movie7"))
-                .andExpect(jsonPath("$.pilot").value("pilo7"));
+                .andExpect(content().json("""
+                        {
+                            "id": 7,
+                            "name": "Sulaco",
+                            "movie": "Alien"
+                        }
+                        """));
     }
 
     @Test
-    @DisplayName("Get filter spacecraft for name that contains iii")
+    @DisplayName("Get filter spacecraft for name that contains Mach")
     void getContainsNameSpacecraft() throws Exception {
-        mvc.perform(get("/spacecrafts/name?filter=iii")
+        mvc.perform(get("/spacecrafts/name?filter=Mach")
                         .with(httpBasic("admin","admin"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -50,10 +53,10 @@ class SpacecraftControllerTest {
                         .json("""
                                 [
                                   {
-                                    "id":9,
-                                    "name":"iii",
-                                    "movie":"movie9",
-                                    "pilot":"pilo9"
+                                    "id":10,
+                                    "name":"Machine",
+                                    "movie":"Contact",
+                                    "pilot":"Ellie Arroway"
                                    }
                                 ]"""));
     }
@@ -69,18 +72,18 @@ class SpacecraftControllerTest {
                 .andExpect(content()
                         .json("""
                                 {
-                                  "page": 7,
-                                  "size": 1,
-                                  "totalPages": 11,
-                                  "totalElements": 11,
-                                  "content": [
-                                    {
-                                      "id": 8,
-                                      "name": "hhh",
-                                      "movie": "movie8",
-                                      "pilot": "pilo8"
-                                    }
-                                  ]
+                                    "page": 7,
+                                    "size": 1,
+                                    "totalPages": 11,
+                                    "totalElements": 11,
+                                    "content": [
+                                        {
+                                            "id": 8,
+                                            "name": "Spinner",
+                                            "movie": "Blade Runner",
+                                            "pilot": "Rick Decarad"
+                                        }
+                                    ]
                                 }"""));
     }
 
@@ -171,10 +174,14 @@ class SpacecraftControllerTest {
                                 }"""))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(8L))
-                .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
-                .andExpect(jsonPath("$.movie").value("updatedMovie"))
-                .andExpect(jsonPath("$.pilot").value("pilo8"));
+                .andExpect(content().json("""
+                                {
+                                    "id": 8,
+                                    "name": "updatedSpacecraft",
+                                    "movie": "updatedMovie",
+                                    "pilot": "Rick Decarad"
+                                }
+                                """));
     }
 
     @Test
