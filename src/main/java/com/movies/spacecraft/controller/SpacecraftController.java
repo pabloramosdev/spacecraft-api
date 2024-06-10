@@ -4,6 +4,7 @@ import com.movies.spacecraft.service.model.PageResponse;
 import com.movies.spacecraft.service.model.SpacecraftRequest;
 import com.movies.spacecraft.service.model.SpacecraftResponse;
 import com.movies.spacecraft.service.SpacecraftService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/spacecrafts")
+@SecurityRequirement(name = "basicAuth")
 public class SpacecraftController {
 
     private final SpacecraftService spacecraftService;
