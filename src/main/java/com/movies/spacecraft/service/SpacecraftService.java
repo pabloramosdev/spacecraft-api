@@ -11,6 +11,7 @@ import com.movies.spacecraft.repository.SpacecraftRepository;
 import com.movies.spacecraft.service.mapper.SpacecraftMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,12 @@ public class SpacecraftService {
     private final SpacecraftMapper spacecraftMapper;
     private final SpacecraftRepository spacecraftRepository;
 
+    @Cacheable( cacheNames = "spacecrafts")
     public SpacecraftResponse findSpacecraftById(Long spacecraftId) {
         return spacecraftMapper.toSpacecraftResponse(findSpacecraft(spacecraftId));
     }
 
+    @Cacheable( cacheNames = "spacecrafts")
     public PageResponse<SpacecraftResponse> allSpacecraftPaginated(Integer page, Integer size) {
         Page<Spacecraft> pageSpacecraft = spacecraftRepository.findAll(PageRequest.of(page, size));
         Page<SpacecraftResponse> spacecraftResponsePage = pageSpacecraft.map(spacecraftMapper::toSpacecraftResponse);
@@ -41,6 +44,7 @@ public class SpacecraftService {
         return pageResponse;
     }
 
+    @Cacheable( cacheNames = "spacecrafts")
     public List<SpacecraftResponse> containsName(String name) {
         return spacecraftRepository.findByNameContaining(name).stream()
                 .map(spacecraftMapper::toSpacecraftResponse)
