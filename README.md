@@ -27,7 +27,7 @@ to manage a spacecraft database.
 	http://localhost:8080/swagger-ui.html
 ```
 
-5. The api is secured by http basic authentication. There are two users:
+5. The api is secured by http basic authentication. There are three users:
 
    - Normal user with username **user** and password **user**.
    - Swagger user with username **swagger** and password **swagger**.
