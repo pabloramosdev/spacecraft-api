@@ -29,7 +29,8 @@ to manage a spacecraft database.
 
 5. The api is secured by http basic authentication. There are two users:
    6. Normal user with username user and password user.
-   7. Admin user with username admin and password admin.
+   7. Swagger user with username swagger and password swagger.
+   8. Admin user with username admin and password admin.
 
 
 6. The application can be deployed in a docker container. To build de docker image run
