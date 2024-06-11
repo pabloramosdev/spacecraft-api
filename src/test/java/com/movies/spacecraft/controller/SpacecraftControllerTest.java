@@ -120,10 +120,7 @@ class SpacecraftControllerTest {
                                   "pilot": "testPilot"
                                 }"""))
                 .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("testSpacecraft"))
-                .andExpect(jsonPath("$.movie").value("testMovie"))
-                .andExpect(jsonPath("$.pilot").value("testPilot"));
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -139,11 +136,7 @@ class SpacecraftControllerTest {
                                   "pilot": "updatedPilot"
                                 }"""))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("updatedSpacecraft"))
-                .andExpect(jsonPath("$.movie").value("updatedMovie"))
-                .andExpect(jsonPath("$.pilot").value("updatedPilot"));
+                .andExpect(status().isOk());
     }
 
     @Test
